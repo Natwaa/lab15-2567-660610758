@@ -49,8 +49,8 @@ const schema = z
     hasCoupon: z.boolean(),
     coupon: z.string(),
     password: z.string()
-     .min(6, { message: 'Password must contain at least 6 characters' })
-     .max(12, { message: 'Password must not exceed 12 characters' }),
+    .max(12,{message:'Password must not exceed 12 characters'})
+    .min(6,{message:'Password must contain at least 6 characters'}),
     confirmPassword: z.string(),
   })
   .refine(
@@ -70,15 +70,17 @@ const schema = z
     {
       message: "Invalid coupon code",
       path: ["coupon"],
-    }
+    },
   )
   .refine(
     (data) => {
-      if (data.password === data.confirmPassword) return true;
+
+      if (data.password === data.confirmPassword ) return true;
+
       return false;
     },
     {
-      message: "Passwords do not match",
+      message: "Password does not match",
       path: ["confirmPassword"],
     },
   )
@@ -116,7 +118,7 @@ export default function Home() {
     //TIP : check /src/app/libs/runningPlans.js
 
     //check discount here
-    if(form.values.coupon === "CMU2023") price = price*0.7;
+    if(form.values.coupon === "CMU2023")  price = price*0.7;
 
     return price;
   };
@@ -131,7 +133,7 @@ export default function Home() {
         <Space h="lg" />
 
         {/* add form */}
-        <form onSubmit={form.onSubmit((v) => alert("See you at CMU Marathon"))}>
+        <form onSubmit={form.onSubmit(() => alert("See you at CMU Marathon"))}>
           <Stack gap="sm">
             <Group grow align="start">
               <TextInput
